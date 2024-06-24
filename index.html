@@ -24,7 +24,7 @@
                         <input type="radio" name="questions" value="10" id="value-10">
                         <span class="best-score">
                             <span>Best Score</span>
-                            <span class="best-score-value">0.0s</span>
+                            <span class="best-score-value" id="best-score-10">0.0s</span>
                         </span>
                     </div>
                     <!-- 20 questions radio input -->
@@ -33,7 +33,7 @@
                         <input type="radio" name="questions" value="20" id="value-20">
                         <span class="best-score">
                             <span>Best Score</span>
-                            <span class="best-score-value">0.0s</span>
+                            <span class="best-score-value" id="best-score-20">0.0s</span>
                         </span>
                     </div>
                     <!-- 25 questions radio input -->
@@ -42,7 +42,7 @@
                         <input type="radio" name="questions" value="25" id="value-25">
                         <span class="best-score">
                             <span>Best Score</span>
-                            <span class="best-score-value">0.0s</span>
+                            <span class="best-score-value" id="best-score-25">0.0s</span>
                         </span>
                     </div>
                     <!-- 99 questions radio input -->
@@ -51,7 +51,7 @@
                         <input type="radio" name="questions" value="99" id="value-99">
                         <span class="best-score">
                             <span>Best Score</span>
-                            <span class="best-score-value">0.0s</span>
+                            <span class="best-score-value" id="best-score-99">0.0s</span>
                         </span>
                     </div>
                 </div>
@@ -62,9 +62,43 @@
             </form>
         </div>
 
-        <!---Countdown Page-->
-        <div class="card" id="countdown-page">
+        <!-- Countdown Page -->
+        <div class="card" id="countdown-page" hidden>
             <h1 class="countdown">3</h1>
+        </div>
+
+        <!-- Game Page -->
+        <div class="card" id="game-page" hidden>
+            <!-- Item container -->
+            <div class="item-container">
+                <div class="selected-item"></div>
+                <div class="item">
+                    <h1>3 x 3 = 30</h1>
+                </div>
+                <div class="item">
+                    <h1>3 x 3 = 30</h1>
+                </div>
+            </div>
+            <!--Right/wrong buttons-->
+            <div class="item-footer">
+                <button class="wrong">Wrong</button>
+                <button class="right">Right</button>
+            </div>
+        </div>
+
+        <!--Score Page -->
+        <div class="card" id="score-page" hidden>
+            <!--Score container-->
+            <div class="score-container">
+                <h1 class="title">Your Time</h1>
+                <h1 class="final-time">3.4s</h1>
+                <h1 class="base-time">Base Time: 2.4s</h1>
+                <h1 class="penalty-time">Penalty: +1.0s</h1>
+            </div>
+            <!-- Play again button-->
+             <div class="score-footer">
+                <button class="play-again">Play Again</button>
+             </div>
         </div>
     </div>
     <!-- Script -->
