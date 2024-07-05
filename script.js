@@ -41,66 +41,88 @@ let penaltyTime = 0;
 let finalTime = 0;
 let finalTimeDisplay = '0.0s';
 
-
-
 // Scroll
 let valueY = 0;
 
-// Stop Timer, Process Results,  go to Score Page
+// Reset Game
+const playAgain = () => {
+  gamePage.addEventListener('click', startTimer);
+  scorePage.hidden = true;
+  splashPage.hidden = false;
+  equationsArray = [];
+  playerGuessArray = [];
+  valueY = 0;
+  playAgainBtn.hidden = true;
+};
+
+// Show Score Page
+const showScorePage = () => {
+  // Show play again button after 1 second
+  setTimeout(() => {
+    playAgainBtn.hidden = false;
+  }, 1000);
+  gamePage.hidden = true;
+  scorePage.hidden = false;
+};
+
+// Format & display time in DOM
+const scoresToDOM = () => {
+  finalTimeDisplay = finalTime.toFixed(1);
+  baseTime = timePlayed.toFixed(1);
+  penaltyTime = penaltyTime.toFixed(1);
+  baseTimeEl.textContent = `Base Time: ${baseTime}`;
+  penaltyTimeEl.textContent = `Penalty: + ${penaltyTime}s`;
+  finalTimeEl.textContent = `${finalTimeDisplay}s`;
+  // Scroll to Top, go to Score Page
+  itemContainer.scrollTo({ top: 0, behavior: 'instant' });
+  showScorePage();
+};
+
+// Stop Timer, Process Results, go to Score Page
 const checkTime = () => {
-  console.log(timePlayed);
-  if (playerGuessArray.length == questionAmount) {
-    console.log('player guess array:', playerGuessArray)
+  if (playerGuessArray.length === questionAmount) {
     clearInterval(timer);
     // Check for wrong guesses, add penalty time
     equationsArray.forEach((equation, index) => {
-      if (equation.evaluated === playerGuessArray[index]) {
-        //Correct Guess, No Penalty
-      } else {
-        // Incorrect Guess, Add Penalty
+      if (equation.evaluated !== playerGuessArray[index]) {
         penaltyTime += 0.5;
       }
     });
     finalTime = timePlayed + penaltyTime;
-    console.log('time', timePlayed, 'penalty:', penaltyTime, 'final:', finalTime)
+    scoresToDOM();
   }
-}
+};
 
-
-//Add a tenth of a second to timePlayed
-
+// Add a tenth of a second to timePlayed
 const addTime = () => {
   timePlayed += 0.1;
   checkTime();
+};
 
-}
-
-
-//Start timer when game page is clicked
-
-const startTimer = () =>{
+// Start timer when game page is clicked
+const startTimer = () => {
   // Reset times
   timePlayed = 0;
   penaltyTime = 0;
   finalTime = 0;
   timer = setInterval(addTime, 100);
   gamePage.removeEventListener('click', startTimer);
-}
+};
 
 // Scroll, Store user selection in playerGuessArray
-const select=(guessedTrue) => {
+const select = (guessedTrue) => {
   // Scroll 80 pixels
   valueY += 80;
   itemContainer.scroll(0, valueY);
   // Add player guess to array
-  return guessedTrue ? playerGuessArray.push('true') : playerGuessArray.push('false');
-} 
+  playerGuessArray.push(guessedTrue ? 'true' : 'false');
+};
 
 // Display Game Page
 const showGamePage = () => {
   gamePage.hidden = false;
   countdownPage.hidden = true;
-}
+};
 
 // Get Random Number up to a max number
 function getRandomInt(max) {
@@ -148,7 +170,7 @@ const equationsToDOM = () => {
     item.appendChild(equationText);
     itemContainer.appendChild(item);
   });
-}
+};
 
 // Dynamically adding correct/incorrect equations
 function populateGamePage() {
@@ -175,7 +197,7 @@ const countdownStart = () => {
   setTimeout(() => { countdown.textContent = '2'; }, 1000);
   setTimeout(() => { countdown.textContent = '1'; }, 2000);
   setTimeout(() => { countdown.textContent = 'GO'; }, 3000);
-}
+};
 
 // Navigate from Splash Page to Countdown Page
 const showCountdown = () => {
@@ -184,7 +206,7 @@ const showCountdown = () => {
   countdownStart();
   createEquations();
   setTimeout(showGamePage, 4000);
-}
+};
 
 // Get the value from selected radio button
 const getRadioValue = () => {
@@ -195,7 +217,7 @@ const getRadioValue = () => {
     }
   });
   return radioValue;
-}
+};
 
 // Form that decides amount of questions
 const selectQuestionAmount = (e) => {
@@ -204,7 +226,7 @@ const selectQuestionAmount = (e) => {
   if (questionAmount) {
     showCountdown();
   }
-}
+};
 
 startForm.addEventListener('click', () => {
   radioContainers.forEach((radioEl) => {
